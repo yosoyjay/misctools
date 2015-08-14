@@ -67,13 +67,14 @@ def collect_procs(sim_dir, dir_pattern, submit_file, prnt=False):
     return procs
 
 
-def extract_procs(file, line=-1, proc_field=2, prnt=False):
+def extract_procs(file, line=-1, proc_pf='-n', prnt=False):
     """Extract and return number of procs used."""
     with open(file) as f:
         data = f.readlines()
 
-    cmd_text = data[line]
-    procs = int(cmd_text.split(' ')[proc_field])
+    cmd_text = data[line].split(' ')
+    field = cmd_text.index('-n') + 1
+    procs = int(cmd_text[field])
 
     if prnt:
       print procs
