@@ -111,14 +111,14 @@ def write_th_files(time, silts, sand):
     for s in silts:
         out_num = out_num + 1
         out = np.array([time, s]).T
-        fname = 'trcr_%s.th' % out_num
+        fname = 'htr_%s.th' % out_num
         print 'Writing class %d (silt/clay) to %s' % (out_num, fname)
         np.savetxt(fname, out, fmt=out_fmt)
 
     # Sand
     out_num = out_num + 1
     out = np.array([time, sand]).T
-    fname = 'trcr_%s.th' % out_num
+    fname = 'htr_%s.th' % out_num
     print 'Writing class %d (sand) to %s' % (out_num, fname)
     np.savetxt(fname, out, fmt=out_fmt)
 
@@ -127,10 +127,15 @@ def main():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('flux_file', type=str, help='path to flux.th file.')
-    parser.add_argument('silt_perc', type=str, help='percent of spm per silt class, e.g. \'0.25,0.5,0.75\'')
+    parser.add_argument('-s', '--silt_perc', type=str,
+                        help='Custum percent of spm per silt class, e.g. \'0.25,0.5,0.75\'')
     parser.add_argument('-p', '--plot', action='store_true', default=False, help='plot results')
     args = parser.parse_args()
-    silt_percents = [float(s) for s in args.silt_perc.split(',')]
+    if args.silt_perc:
+        silt_percents = [float(s) for s in args.silt_perc.split(',')]
+    else:
+        # Based on literature and water sample values
+        silt_percents = [0.07, 0.40, 0.53]
     print 'Using %d silt/clay classes' % len(silt_percents)
     for i, p in enumerate(silt_percents):
         print '- silt/clay class %d : %f' % (i+1, p)
