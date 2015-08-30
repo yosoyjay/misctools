@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Fetch obs."""
 import datetime
-import data.stationCollection as sc
+from crane.data import stationCollection as sc
 
 VARS = ['elev', 'temp', 'salt', 'vel_E', 'vel_N']
 
