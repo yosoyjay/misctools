@@ -1,4 +1,4 @@
-#!/usr/bin/evn python
+#!/usr/bin/env python
 """Checks status of simulations to guide tasks in batchScriptLib."""
 import glob
 import os
