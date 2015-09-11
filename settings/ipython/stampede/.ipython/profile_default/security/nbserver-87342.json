@@ -1,0 +1,9 @@
+{
+  "secure": false, 
+  "url": "http://localhost:8888/", 
+  "hostname": "localhost", 
+  "pid": 87342, 
+  "base_url": "/", 
+  "notebook_dir": "/Users/jesse/research/etm/byron_data_spm_ntu_fit/cmop_water_samples", 
+  "port": 8888
+}

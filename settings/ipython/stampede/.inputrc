@@ -1,0 +1,4 @@
+# Set here to be picked up by python
+set editing-mode vi
+set keymap vi
+set convert-meta on
