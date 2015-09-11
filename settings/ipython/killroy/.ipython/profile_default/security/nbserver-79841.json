@@ -1,0 +1,9 @@
+{
+  "secure": false, 
+  "url": "http://localhost:8890/", 
+  "hostname": "localhost", 
+  "pid": 79841, 
+  "base_url": "/", 
+  "notebook_dir": "/Users/jesse/research/hack_oregon/urban_dev", 
+  "port": 8890
+}
