@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='scp://lopezj@ambcs01a.stccmop.org/home/workspace/project/lopezj/'
+let g:netrw_dirhist_2='/Users/jesse/Dropbox/projs/django/mysite/polls'
+let g:netrw_dirhist_3='/Users/jesse/ScipySuperpack'
+let g:netrw_dirhist_4='/usr/local/lib/python2.7/site-packages/matplotlib-1.3.x-py2.7-macosx-10.8-intel.egg/matplotlib/backends/Matplotlib.nib'

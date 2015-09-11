@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/disk/ambfs21/0/users/lopezj/svn/modeling/processing/trunk/processing'
+let g:netrw_dirhist_2='/disk/ambfs21/0/users/lopezj/src/selfe-refactor/src'
+let g:netrw_dirhist_3='/home/lopezj/work/sed_test/trench/conc_5'
+let g:netrw_dirhist_4='/home/lopezj/source/sedtests/sedtests/trench'
+let g:netrw_dirhist_5='/home/lopezj/work/sed_test/warner_etm/test_etm_schism_upwind'
+let g:netrw_dirhist_6='/home/lopezj/work/sed_test/channel_equilibrium/channel_trench_02'

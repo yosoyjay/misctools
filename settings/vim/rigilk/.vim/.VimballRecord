@@ -1,0 +1,2 @@
+Align.vba: call delete('/Users/jesse/.vim/plugin/AlignPlugin.vim')|call delete('/Users/jesse/.vim/plugin/AlignMapsPlugin.vim')|call delete('/Users/jesse/.vim/plugin/cecutil.vim')|call delete('/Users/jesse/.vim/doc/Align.txt')|call delete('/Users/jesse/.vim/autoload/Align.vim')|call delete('/Users/jesse/.vim/autoload/AlignMaps.vim')
+markdown-1.2.2.vba: call delete('/Users/jesse/.vim/ftdetect/markdown.vim')|call delete('/Users/jesse/.vim/snippets/markdown.snippets')|call delete('/Users/jesse/.vim/syntax/markdown.vim')
