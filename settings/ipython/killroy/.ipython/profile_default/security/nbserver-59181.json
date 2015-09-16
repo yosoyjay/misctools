@@ -1,0 +1,9 @@
+{
+  "secure": false, 
+  "url": "http://localhost:8888/", 
+  "hostname": "localhost", 
+  "pid": 59181, 
+  "base_url": "/", 
+  "notebook_dir": "/Users/jesse/Desktop/sed_model_paper/timings", 
+  "port": 8888
+}

@@ -1,0 +1,9 @@
+{
+  "secure": false, 
+  "url": "http://localhost:8888/", 
+  "hostname": "localhost", 
+  "pid": 27086, 
+  "base_url": "/", 
+  "notebook_dir": "/Users/jesse/Dropbox/hack_oregon/urban_dev/ipython_notebooks", 
+  "port": 8888
+}

@@ -1,0 +1,8 @@
+{
+  "secure": false, 
+  "url": "http://localhost:8891/", 
+  "hostname": "localhost", 
+  "base_url": "/", 
+  "notebook_dir": "/Users/jesse/Dropbox/research/manuscripts/cre_etms/manuscript/notebooks", 
+  "port": 8891
+}

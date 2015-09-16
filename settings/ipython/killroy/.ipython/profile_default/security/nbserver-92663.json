@@ -1,0 +1,9 @@
+{
+  "secure": false, 
+  "url": "http://localhost:8888/", 
+  "hostname": "localhost", 
+  "pid": 92663, 
+  "base_url": "/", 
+  "notebook_dir": "/Users/jesse/research/etm/beaver_army_rating_curve", 
+  "port": 8888
+}
