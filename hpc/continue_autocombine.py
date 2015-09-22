@@ -10,14 +10,19 @@ import netCDF4 as nc
 def get_ndays(dir, var='elev'):
     """Returns number of days (stacks) in outputs based on files."""
     str = os.path.join(dir,'*_{var}.61.nc'.format(var=var))
-    days = glob.glob(str)
+    files = glob.glob(str)
+    days = [int(os.path.basename(f).split('_')[0]) for f in files]
     return days
 
 
-def get_var(f):
+def get_var(file):
     """Extract variable from file name."""
+    f = os.path.basename(file)
     day, var_str = f.split('_')
-    var, file_type, suf = f.split('.')
+    var, file_type, suf = var_str.split('.')
+    vector_var = ['62', '64', '67', '71']
+    if file_type in vector_var: 
+        var = var+'_x'
     return var
 
 
@@ -27,22 +32,31 @@ def verify_file(f, nsteps=96):
               'face_nodes', 'node_x', 'node_y', 'node_lon', 'node_lat',
               'sigma', 'z', 'depth', 'elev', 'Cs', 'h_c', 'h0', 'k_bottom']
     var = get_var(f)
-    nnodes = file.variables['node_x'][:].shape[0]
-    file = nc.Dataset(f)
-    if file.variables.keys() != fields:
-        return False
-    if file.variables['time'][:].shape != (nsteps,):
-        return False
-    if (file.variables['node_x'][:].shape !=
-        file.variables['node_y'][:].shape !=
-        file.variables['node_lon'][:].shape !=
-        file.variables['node_lat'][:].shape !=
-        file.variables['depth'][:].shape !=
-        file.variables['k_bottom'][:].shape):
-        return False
-    if file.variables[var].shape != (nsteps, nnodes):
-        return False
-    return True 
+    try:
+      file = nc.Dataset(f)
+      nnodes = file.variables['node_x'][:].shape[0]
+      result = None
+      if file.variables.keys() != fields:
+          result = False
+      if file.variables['time'][:].shape != (nsteps,):
+          result = False
+      if (file.variables['node_x'][:].shape !=
+          file.variables['node_y'][:].shape !=
+          file.variables['node_lon'][:].shape !=
+          file.variables['node_lat'][:].shape !=
+          file.variables['depth'][:].shape !=
+          file.variables['k_bottom'][:].shape):
+          file.close()
+          result = False
+      if file.variables[var].shape != (nsteps, nnodes):
+          result = False
+    except RuntimeError:
+        result = False
+        print('- trouble with file {}'.format(f))
+    else:
+        file.close()
+        result = True
+    return result 
 
 
 def quick_check(dir):
@@ -62,21 +76,22 @@ def quick_check(dir):
 def thorough_check(dir, nsteps=96):
     """Return dir with days and number of combined files."""
     days = get_ndays(dir)
+    days.sort()
     if len(days) == 0:
         good = False
         nfiles = {}
     else:
         nfiles = {}
         for d in days:
-            nfiles = 0
-            str = os.path.join(dir, '{day}_*.*.nc'.format(d))
+            nf = 0
+            str = os.path.join(dir, '{}_*.*.nc'.format(d))
             files = glob.glob(str)
             for f in files:
+                print '- day {}, file {}'.format(d, f)
                 if verify_file(f, nsteps):
-                    nfiles = nfiles + 1
-            nfiles[d] = nfiles
-    
-        if len(set(nfiles.values())) == nfiles[d]:
+                    nf = nf + 1
+            nfiles[d] = nf
+        if len(set(nfiles.values())) <= 1: 
             good = True
         else:
             good = False
@@ -85,6 +100,7 @@ def thorough_check(dir, nsteps=96):
 
 
 def check_combined(dir, thorough=True, nsteps=96):
+    print 'Checking combined files in {}'.format(dir)
     if thorough:
         good, nfiles = thorough_check(dir, nsteps=96)
     else:
@@ -94,16 +110,22 @@ def check_combined(dir, thorough=True, nsteps=96):
 
 def find_new_start_day(dir):
     good, nfiles = check_combined(dir)
-    if nfiles:
+    if good:
         start = max(nfiles.keys()) + 1
     else:
-        start = 1
+        # Find where to start
+        nfiles_good = max(nfiles.values())
+        for k, v in nfiles.iteritems(): 
+            if v != nfiles_good:
+                start = k
+                break
     return start
 
 
 def launch_continued_autocombine(end, nthreads, dir='combined', round=6, tracers=0, sed=False, debug=False):
     """Launch continuation of autocombine."""
     start = find_new_start_day(dir)
+    print '- starting new combine run at day {}'.format(start)
     cmd = 'autocombine.py -D -o combined -d outputs -r {round} -j {nthreads}'.format(round=round, nthreads=nthreads)
     if tracers:
         cmd = cmd + ' -t {tracers}'.format(tracers=tracers)

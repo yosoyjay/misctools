@@ -49,7 +49,7 @@ def combine_hotstart(dir, ntracers, sed):
 
 
     old = os.getcwd()
-    print '- moving to {dir}'.format(dir=dir)
+    print '- moving from {old} to {dir}'.format(old=old, dir=dir)
     os.chdir(dir)
     print '- combining using: {cmd}'.format(cmd=cmd)
     proc = subprocess.Popen([cmd], stdout=subprocess.PIPE, shell=True)
@@ -69,7 +69,7 @@ def combine_hotstart(dir, ntracers, sed):
 
 def prepare_last_hotstart(dir, ntracers, sed):
     """Create latest hotstart file and move it to run directory."""
-    run = os.path.dirname(dir)
+    run = os.path.dirname(os.path.abspath(dir))
     new_file = combine_hotstart(dir, ntracers, sed)
     print '- new file is {new_file}'.format(new_file=new_file)
     old = os.getcwd()
