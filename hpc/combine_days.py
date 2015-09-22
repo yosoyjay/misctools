@@ -3,12 +3,13 @@
 from subprocess import Popen, PIPE 
 import glob
 
-def find_missing_days(start, end, nfiles):
+def find_missing_days(start, end, nfiles, list=False):
 		"""ID and return list of days without all files."""
 		missing_days = [] 
 		for d in range(start, end+1):
 				files = len(glob.glob('combined/%d_*.nc' % d))
 				if files != nfiles:
+						if list: print d, '%d out of %d' % (files, nfiles) 
 						missing_days.append(d)
 
 		return missing_days
@@ -31,20 +32,24 @@ def call_combine(day):
 		return out
 
 
-def combine_days(file):
+def combine_days(start, end, nfiles, list):
 		"""Combine missing days."""
-		days = read_days_files(file)
-		for d in days:
-				call_combine(d)
+		missing_days = find_missing_days(start, end, nfiles, list)
+		if not list:
+				for d in missing_days:
+						call_combine(d)
 
 
 def main():
 		import argparse
 		parser = argparse.ArgumentParser()
-		parser.add_argument('file', help='Missing days file.')
+		parser.add_argument('start', type=int, help='Start stack (int)') 
+		parser.add_argument('end', type=int, help='End stack (int)')
+		parser.add_argument('nfiles', type=int, help='Number of files per day')
+		parser.add_argument('-l', '--list', action='store_true', default=False, help='Only list days, do not combine')
 		args = parser.parse_args()
 
-		combine_days(args.file)
+		combine_days(args.start, args.end, args.nfiles, args.list) 
 
 
 if __name__ == '__main__':
